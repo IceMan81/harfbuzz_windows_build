@@ -172,10 +172,10 @@ hb_buffer_guess_segment_properties (hb_buffer_t *buffer);
 
 
 typedef enum { /*< flags >*/
-  HB_BUFFER_FLAG_DEFAULT			= 0x00000000,
-  HB_BUFFER_FLAG_BOT				= 0x00000001, /* Beginning-of-text */
-  HB_BUFFER_FLAG_EOT				= 0x00000002, /* End-of-text */
-  HB_BUFFER_FLAG_PRESERVE_DEFAULT_IGNORABLES	= 0x00000004
+  HB_BUFFER_FLAG_DEFAULT			= 0x00000000u,
+  HB_BUFFER_FLAG_BOT				= 0x00000001u, /* Beginning-of-text */
+  HB_BUFFER_FLAG_EOT				= 0x00000002u, /* End-of-text */
+  HB_BUFFER_FLAG_PRESERVE_DEFAULT_IGNORABLES	= 0x00000004u
 } hb_buffer_flags_t;
 
 void
@@ -186,12 +186,25 @@ hb_buffer_flags_t
 hb_buffer_get_flags (hb_buffer_t *buffer);
 
 
+
+#define HB_BUFFER_REPLACEMENT_CODEPOINT_DEFAULT 0xFFFDu
+
+/* Sets codepoint used to replace invalid UTF-8/16/32 entries.
+ * Default is 0xFFFDu. */
+void
+hb_buffer_set_replacement_codepoint (hb_buffer_t    *buffer,
+				     hb_codepoint_t  replacement);
+
+hb_codepoint_t
+hb_buffer_get_replacement_codepoint (hb_buffer_t    *buffer);
+
+
 /* Resets the buffer.  Afterwards it's as if it was just created,
  * except that it has a larger buffer allocated perhaps... */
 void
 hb_buffer_reset (hb_buffer_t *buffer);
 
-/* Like reset, but does NOT clear unicode_funcs. */
+/* Like reset, but does NOT clear unicode_funcs and replacement_codepoint. */
 void
 hb_buffer_clear_contents (hb_buffer_t *buffer);
 
@@ -207,6 +220,10 @@ hb_buffer_allocation_successful (hb_buffer_t  *buffer);
 
 void
 hb_buffer_reverse (hb_buffer_t *buffer);
+
+void
+hb_buffer_reverse_range (hb_buffer_t *buffer,
+			 unsigned int start, unsigned int end);
 
 void
 hb_buffer_reverse_clusters (hb_buffer_t *buffer);
@@ -239,6 +256,22 @@ hb_buffer_add_utf32 (hb_buffer_t    *buffer,
 		     int             text_length,
 		     unsigned int    item_offset,
 		     int             item_length);
+
+/* Allows only access to first 256 Unicode codepoints. */
+void
+hb_buffer_add_latin1 (hb_buffer_t   *buffer,
+		      const uint8_t *text,
+		      int            text_length,
+		      unsigned int   item_offset,
+		      int            item_length);
+
+/* Like add_utf32 but does NOT check for invalid Unicode codepoints. */
+void
+hb_buffer_add_codepoints (hb_buffer_t          *buffer,
+			  const hb_codepoint_t *text,
+			  int                   text_length,
+			  unsigned int          item_offset,
+			  int                   item_length);
 
 
 /* Clears any new items added at the end */
@@ -275,10 +308,10 @@ hb_buffer_normalize_glyphs (hb_buffer_t *buffer);
  */
 
 typedef enum { /*< flags >*/
-  HB_BUFFER_SERIALIZE_FLAG_DEFAULT		= 0x00000000,
-  HB_BUFFER_SERIALIZE_FLAG_NO_CLUSTERS		= 0x00000001,
-  HB_BUFFER_SERIALIZE_FLAG_NO_POSITIONS		= 0x00000002,
-  HB_BUFFER_SERIALIZE_FLAG_NO_GLYPH_NAMES	= 0x00000004
+  HB_BUFFER_SERIALIZE_FLAG_DEFAULT		= 0x00000000u,
+  HB_BUFFER_SERIALIZE_FLAG_NO_CLUSTERS		= 0x00000001u,
+  HB_BUFFER_SERIALIZE_FLAG_NO_POSITIONS		= 0x00000002u,
+  HB_BUFFER_SERIALIZE_FLAG_NO_GLYPH_NAMES	= 0x00000004u
 } hb_buffer_serialize_flags_t;
 
 typedef enum {

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -22,15 +22,20 @@
     <ClInclude Include="..\src\hb-blob.h" />
     <ClInclude Include="..\src\hb-buffer.h" />
     <ClInclude Include="..\src\hb-common.h" />
+    <ClInclude Include="..\src\hb-deprecated.h" />
     <ClInclude Include="..\src\hb-face.h" />
     <ClInclude Include="..\src\hb-font.h" />
     <ClInclude Include="..\src\hb-ft.h" />
+    <ClInclude Include="..\src\hb-ot-font.h" />
     <ClInclude Include="..\src\hb-ot-layout.h" />
+    <ClInclude Include="..\src\hb-ot-shape.h" />
     <ClInclude Include="..\src\hb-ot-tag.h" />
     <ClInclude Include="..\src\hb-ot.h" />
     <ClInclude Include="..\src\hb-set.h" />
     <ClInclude Include="..\src\hb-shape-plan.h" />
     <ClInclude Include="..\src\hb-shape.h" />
+    <ClInclude Include="..\src\hb-ucdn\ucdn.h" />
+    <ClInclude Include="..\src\hb-ucdn\unicodedata_db.h" />
     <ClInclude Include="..\src\hb-unicode.h" />
     <ClInclude Include="..\src\hb-uniscribe.h" />
     <ClInclude Include="..\src\hb-version.h" />
@@ -45,15 +50,19 @@
     <ClCompile Include="..\src\hb-fallback-shape.cc" />
     <ClCompile Include="..\src\hb-font.cc" />
     <ClCompile Include="..\src\hb-ft.cc" />
+    <ClCompile Include="..\src\hb-ot-font.cc" />
     <ClCompile Include="..\src\hb-ot-layout.cc" />
     <ClCompile Include="..\src\hb-ot-map.cc" />
     <ClCompile Include="..\src\hb-ot-shape-complex-arabic.cc" />
     <ClCompile Include="..\src\hb-ot-shape-complex-default.cc" />
+    <ClCompile Include="..\src\hb-ot-shape-complex-hangul.cc" />
+    <ClCompile Include="..\src\hb-ot-shape-complex-hebrew.cc" />
     <ClCompile Include="..\src\hb-ot-shape-complex-indic-table.cc" />
     <ClCompile Include="..\src\hb-ot-shape-complex-indic.cc" />
     <ClCompile Include="..\src\hb-ot-shape-complex-myanmar.cc" />
     <ClCompile Include="..\src\hb-ot-shape-complex-sea.cc" />
     <ClCompile Include="..\src\hb-ot-shape-complex-thai.cc" />
+    <ClCompile Include="..\src\hb-ot-shape-complex-tibetan.cc" />
     <ClCompile Include="..\src\hb-ot-shape-fallback.cc" />
     <ClCompile Include="..\src\hb-ot-shape-normalize.cc" />
     <ClCompile Include="..\src\hb-ot-shape.cc" />
@@ -62,21 +71,31 @@
     <ClCompile Include="..\src\hb-shape-plan.cc" />
     <ClCompile Include="..\src\hb-shape.cc" />
     <ClCompile Include="..\src\hb-shaper.cc" />
-    <ClCompile Include="..\src\hb-tt-font.cc" />
+    <ClCompile Include="..\src\hb-ucdn.cc" />
+    <ClCompile Include="..\src\hb-ucdn\ucdn.c" />
     <ClCompile Include="..\src\hb-unicode.cc" />
-    <ClCompile Include="..\src\hb-uniscribe.cc" />
     <ClCompile Include="..\src\hb-warning.cc" />
+    <ClCompile Include="..\src\main.cc" />
+    <ClCompile Include="..\src\test-buffer-serialize.cc" />
+    <ClCompile Include="..\src\test-size-params.cc" />
+    <ClCompile Include="..\src\test-would-substitute.cc" />
+    <ClCompile Include="..\src\test.cc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\src\hb-atomic-private.hh" />
+    <None Include="..\src\hb-buffer-deserialize-json.hh" />
+    <None Include="..\src\hb-buffer-deserialize-text.hh" />
     <None Include="..\src\hb-buffer-private.hh" />
     <None Include="..\src\hb-cache-private.hh" />
+    <None Include="..\src\hb-face-private.hh" />
     <None Include="..\src\hb-fallback-shape-private.hh" />
     <None Include="..\src\hb-font-private.hh" />
+    <None Include="..\src\hb-gobject-enums.h.tmpl" />
     <None Include="..\src\hb-mutex-private.hh" />
     <None Include="..\src\hb-object-private.hh" />
     <None Include="..\src\hb-open-file-private.hh" />
     <None Include="..\src\hb-open-type-private.hh" />
+    <None Include="..\src\hb-ot-cmap-table.hh" />
     <None Include="..\src\hb-ot-head-table.hh" />
     <None Include="..\src\hb-ot-hhea-table.hh" />
     <None Include="..\src\hb-ot-hmtx-table.hh" />
@@ -85,16 +104,20 @@
     <None Include="..\src\hb-ot-layout-gpos-table.hh" />
     <None Include="..\src\hb-ot-layout-gsub-table.hh" />
     <None Include="..\src\hb-ot-layout-gsubgpos-private.hh" />
+    <None Include="..\src\hb-ot-layout-jstf-table.hh" />
     <None Include="..\src\hb-ot-layout-private.hh" />
     <None Include="..\src\hb-ot-map-private.hh" />
     <None Include="..\src\hb-ot-maxp-table.hh" />
     <None Include="..\src\hb-ot-name-table.hh" />
     <None Include="..\src\hb-ot-shape-complex-arabic-fallback.hh" />
     <None Include="..\src\hb-ot-shape-complex-arabic-table.hh" />
+    <None Include="..\src\hb-ot-shape-complex-arabic-win1256.hh" />
     <None Include="..\src\hb-ot-shape-complex-indic-machine.hh" />
     <None Include="..\src\hb-ot-shape-complex-indic-private.hh" />
     <None Include="..\src\hb-ot-shape-complex-indic-table.hh" />
+    <None Include="..\src\hb-ot-shape-complex-myanmar-machine.hh" />
     <None Include="..\src\hb-ot-shape-complex-private.hh" />
+    <None Include="..\src\hb-ot-shape-complex-sea-machine.hh" />
     <None Include="..\src\hb-ot-shape-fallback-private.hh" />
     <None Include="..\src\hb-ot-shape-normalize-private.hh" />
     <None Include="..\src\hb-ot-shape-private.hh" />
@@ -105,6 +128,8 @@
     <None Include="..\src\hb-shaper-list.hh" />
     <None Include="..\src\hb-shaper-private.hh" />
     <None Include="..\src\hb-unicode-private.hh" />
+    <None Include="..\src\hb-utf-private.hh" />
+    <None Include="..\src\hb-version.h.in" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6318D4FC-7F92-4FDA-8E6F-ADAD0502F848}</ProjectGuid>
@@ -116,27 +141,27 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -170,7 +195,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)\..\deps\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\..\deps\include;C:\src_misc\freetype2\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\..\deps\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)libs\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)objs\$(Configuration)\</IntDir>
@@ -214,7 +239,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;HARFBUZZ_EXPORTS;HAVE_OT;HAVE_UNISCRIBE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;HARFBUZZ_EXPORTS;HAVE_OT;HAVE_UCDN;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
@@ -235,7 +260,7 @@
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;_WIN64;NDEBUG;_WINDOWS;_USRDLL;HARFBUZZ_EXPORTS;HAVE_OT;HAVE_UNISCRIBE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WIN64;NDEBUG;_WINDOWS;HARFBUZZ_EXPORTS;HAVE_OT;HAVE_UCDN;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -243,7 +268,7 @@
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <StringPooling>true</StringPooling>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

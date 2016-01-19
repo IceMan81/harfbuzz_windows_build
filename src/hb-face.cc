@@ -31,7 +31,6 @@
 #include "hb-ot-layout-private.hh"
 
 #include "hb-font-private.hh"
-#include "hb-blob.h"
 #include "hb-open-file-private.hh"
 #include "hb-ot-head-table.hh"
 #include "hb-ot-maxp-table.hh"
@@ -166,8 +165,8 @@ hb_face_create (hb_blob_t    *blob,
 {
   hb_face_t *face;
 
-  if (unlikely (!blob || !hb_blob_get_length (blob)))
-    return hb_face_get_empty ();
+  if (unlikely (!blob))
+    blob = hb_blob_get_empty ();
 
   hb_face_for_data_closure_t *closure = _hb_face_for_data_closure_create (OT::Sanitizer<OT::OpenTypeFontFile>::sanitize (hb_blob_reference (blob)), index);
 
@@ -299,7 +298,7 @@ hb_face_get_user_data (hb_face_t          *face,
 void
 hb_face_make_immutable (hb_face_t *face)
 {
-  if (hb_object_is_inert (face))
+  if (unlikely (hb_object_is_inert (face)))
     return;
 
   face->immutable = true;
@@ -348,7 +347,7 @@ hb_face_reference_table (hb_face_t *face,
  *
  * Return value: (transfer full):
  *
- * Since: 1.0
+ * Since: 0.9.2
  **/
 hb_blob_t *
 hb_face_reference_blob (hb_face_t *face)
@@ -363,13 +362,13 @@ hb_face_reference_blob (hb_face_t *face)
  *
  * 
  *
- * Since: 1.0
+ * Since: 0.9.2
  **/
 void
 hb_face_set_index (hb_face_t    *face,
 		   unsigned int  index)
 {
-  if (hb_object_is_inert (face))
+  if (face->immutable)
     return;
 
   face->index = index;
@@ -383,7 +382,7 @@ hb_face_set_index (hb_face_t    *face,
  *
  * Return value: 
  *
- * Since: 1.0
+ * Since: 0.9.2
  **/
 unsigned int
 hb_face_get_index (hb_face_t    *face)
@@ -398,13 +397,13 @@ hb_face_get_index (hb_face_t    *face)
  *
  * 
  *
- * Since: 1.0
+ * Since: 0.9.2
  **/
 void
 hb_face_set_upem (hb_face_t    *face,
 		  unsigned int  upem)
 {
-  if (hb_object_is_inert (face))
+  if (face->immutable)
     return;
 
   face->upem = upem;
@@ -442,13 +441,13 @@ hb_face_t::load_upem (void) const
  *
  * 
  *
- * Since: 1.0
+ * Since: 0.9.7
  **/
 void
 hb_face_set_glyph_count (hb_face_t    *face,
 			 unsigned int  glyph_count)
 {
-  if (hb_object_is_inert (face))
+  if (face->immutable)
     return;
 
   face->num_glyphs = glyph_count;
@@ -462,7 +461,7 @@ hb_face_set_glyph_count (hb_face_t    *face,
  *
  * Return value: 
  *
- * Since: 1.0
+ * Since: 0.9.7
  **/
 unsigned int
 hb_face_get_glyph_count (hb_face_t *face)
