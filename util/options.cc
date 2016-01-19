@@ -291,6 +291,7 @@ shape_options_t::add_options (option_parser_t *parser)
     {"eot",		0, 0, G_OPTION_ARG_NONE,	&this->eot,			"Treat text as end-of-paragraph",	NULL},
     {"preserve-default-ignorables",0, 0, G_OPTION_ARG_NONE,	&this->preserve_default_ignorables,	"Preserve Default-Ignorable characters",	NULL},
     {"utf8-clusters",	0, 0, G_OPTION_ARG_NONE,	&this->utf8_clusters,		"Use UTF8 byte indices, not char indices",	NULL},
+    {"cluster-level",	0, 0, G_OPTION_ARG_INT,		&this->cluster_level,		"Cluster merging level (default: 0)",	"0/1/2"},
     {"normalize-glyphs",0, 0, G_OPTION_ARG_NONE,	&this->normalize_glyphs,	"Rearrange glyph clusters in nominal order",	NULL},
     {"num-iterations",	0, 0, G_OPTION_ARG_INT,		&this->num_iterations,		"Run shaper N times (default: 1)",	"N"},
     {NULL}
@@ -489,7 +490,7 @@ font_options_t::get_font (void) const
       GString *gs = g_string_new (NULL);
       char buf[BUFSIZ];
 #if defined(_WIN32) || defined(__CYGWIN__)
-      setmode (fileno (stdin), _O_BINARY);
+      setmode (fileno (stdin), O_BINARY);
 #endif
       while (!feof (stdin)) {
 	size_t ret = fread (buf, 1, sizeof (buf), stdin);
@@ -537,6 +538,9 @@ font_options_t::get_font (void) const
       }
     }
 
+    if (debug)
+      mm = HB_MEMORY_MODE_DUPLICATE;
+
     blob = hb_blob_create (font_data, len, mm, user_data, destroy);
   }
 
@@ -565,7 +569,7 @@ font_options_t::get_font (void) const
   else
   {
     for (unsigned int i = 0; i < ARRAY_LENGTH (supported_font_funcs); i++)
-      if (0 == strcasecmp (font_funcs, supported_font_funcs[i].name))
+      if (0 == g_ascii_strcasecmp (font_funcs, supported_font_funcs[i].name))
       {
 	set_font_funcs = supported_font_funcs[i].func;
 	break;
@@ -597,25 +601,26 @@ const char *
 text_options_t::get_line (unsigned int *len)
 {
   if (text) {
-    if (text_len == (unsigned int) -1)
-      text_len = strlen (text);
+    if (!line) line = text;
+    if (line_len == (unsigned int) -1)
+      line_len = strlen (line);
 
-    if (!text_len) {
+    if (!line_len) {
       *len = 0;
       return NULL;
     }
 
-    const char *ret = text;
-    const char *p = (const char *) memchr (text, '\n', text_len);
+    const char *ret = line;
+    const char *p = (const char *) memchr (line, '\n', line_len);
     unsigned int ret_len;
     if (!p) {
-      ret_len = text_len;
-      text += ret_len;
-      text_len = 0;
+      ret_len = line_len;
+      line += ret_len;
+      line_len = 0;
     } else {
       ret_len = p - ret;
-      text += ret_len + 1;
-      text_len -= ret_len + 1;
+      line += ret_len + 1;
+      line_len -= ret_len + 1;
     }
 
     *len = ret_len;
@@ -667,7 +672,7 @@ output_options_t::get_file_handle (void)
     fp = fopen (output_file, "wb");
   else {
 #if defined(_WIN32) || defined(__CYGWIN__)
-    setmode (fileno (stdout), _O_BINARY);
+    setmode (fileno (stdout), O_BINARY);
 #endif
     fp = stdout;
   }
@@ -705,6 +710,7 @@ format_options_t::add_options (option_parser_t *parser)
 			      G_OPTION_ARG_NONE,	&this->show_positions,		"Do not output glyph positions",					NULL},
     {"no-clusters",	0, G_OPTION_FLAG_REVERSE,
 			      G_OPTION_ARG_NONE,	&this->show_clusters,		"Do not output cluster indices",					NULL},
+    {"show-extents",	0, 0, G_OPTION_ARG_NONE,	&this->show_extents,		"Output glyph extents",							NULL},
     {NULL}
   };
   parser->add_group (entries,
