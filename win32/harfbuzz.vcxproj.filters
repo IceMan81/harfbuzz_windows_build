@@ -155,9 +155,6 @@
     <ClCompile Include="..\src\hb-ot-shape-complex-myanmar.cc">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\hb-ot-shape-complex-sea.cc">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\hb-face.cc">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
